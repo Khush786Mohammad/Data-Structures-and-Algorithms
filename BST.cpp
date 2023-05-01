@@ -121,6 +121,45 @@ void leveOrderTraversal(node* root)
     }
 }
 
+ZigZagLevelOrderTraversal(node* root)
+{
+    // write the code here
+    if(root == NULL)
+    {
+        return ;
+    }
+    queue<node*> q;
+    q.push(root);
+    q.push(NULL);
+
+    while(!q.empty())
+    {
+        node* frontNode = q.front();
+        q.pop();
+
+        if(frontNode == NULL)
+        {
+            cout<<endl;
+            if(!q.empty())
+            {
+                q.push(NULL);
+            }
+        }
+        else
+        {
+            cout<<frontNode->data<<" ";
+            if(frontNode->left)
+        {
+            q.push(frontNode->left);
+        }
+            if(frontNode->right)
+        {
+            q.push(frontNode->right);
+        }
+        }
+    
+}
+
 int main()
 {
     node *root = NULL;
@@ -134,4 +173,8 @@ int main()
     cout<<endl;
     leveOrderTraversal(root);
     return 0;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> adff9733a1986cd5b9de4be6c8fcb2e6de46b24f
