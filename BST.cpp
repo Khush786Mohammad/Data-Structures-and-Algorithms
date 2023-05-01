@@ -120,7 +120,10 @@ void leveOrderTraversal(node* root)
         
     }
 }
-
+ZigZagLevelOrderTraversal(node* root)
+{
+    // write the code here
+}
 int main()
 {
     node *root = NULL;
