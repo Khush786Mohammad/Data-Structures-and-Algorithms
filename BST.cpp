@@ -1,5 +1,6 @@
 #include<iostream>
 #include<queue>
+#include<map>
 using namespace std;
 
 class node
@@ -123,6 +124,9 @@ void leveOrderTraversal(node* root)
 
 int minValue(node* root)
 {
+    if(root == nullptr)
+    return -1;
+
     node *temp = root;
     while(temp->left != NULL)
     {
@@ -133,6 +137,10 @@ int minValue(node* root)
 
 int maxValue(node* root)
 {
+    if(root == NULL)
+    return -1;
+
+
     node *temp = root;
     while(temp->right != NULL)
     {
@@ -140,17 +148,105 @@ int maxValue(node* root)
     }
     return temp->data;
 }
+
+void Node_To_Parent(node* root , map<node*,node*> &mp)
+{
+    queue<node*> q;
+    q.push(root);
+
+    mp[root] = NULL;
+
+    while(!q.empty())
+    {
+        node* frontNode = q.front();
+        q.pop();
+
+        if(frontNode->left)
+        {
+            q.push(frontNode->left);
+            mp[frontNode->left] = frontNode;
+        }
+        if(frontNode->right)
+        {
+            q.push(frontNode->right);
+            mp[frontNode->right] = frontNode;
+        }
+    }
+} 
+
+int successor(node* root , node* temp , map<node*,node*> &mp)
+{
+    if(temp->right != NULL)
+    {
+        return minValue(temp->right);
+    }
+
+    node* p = mp[temp];
+
+    while(p != NULL && p->right ==temp)
+    {
+        temp = p;
+        p = mp[temp];
+    }
+    if(p==NULL)
+    return -1;
+    return p->data;
+}
+
+int predecessor(node* root , node* temp , map<node*,node*> &mp)
+{
+    if(temp->left != NULL)
+    {
+        return maxValue(temp->left);
+    }
+
+    node* parent = mp[temp];
+
+    while(parent != NULL && parent->left == temp)
+    {
+        temp = parent;
+        parent = mp[parent];
+    }
+    if(parent == NULL)
+    return -1;
+    return parent->data;
+}
+
 int main()
 {
     node *root = NULL;
     cout<<"Enter the data\n";
     takeInput(root);
+
     inorder(root);
     cout<<endl;
+
     preorder(root);
     cout<<endl;
+
     postorder(root);
     cout<<endl;
+
     leveOrderTraversal(root);
+    cout<<endl;
+
+    int min = minValue(root);
+    cout<<"Minimum Value in BST is : "<<min<<endl;
+    int max = maxValue(root);
+
+    cout<<"Maximum Value in BST is : "<<max<<endl;
+
+    //create Mapping of node to its parent
+    map<node*,node*> mp;
+    Node_To_Parent(root,mp);
+
+    node* temp = root->right;
+    cout<<"successor of "<<temp->data<<endl;
+    cout<<successor(root , temp , mp);
+    cout<<endl;
+
+    cout<<"Predecessor of "<<temp->data<<endl;
+    cout<<predecessor(root,temp,mp);
+    cout<<endl;
     return 0;
 }
