@@ -121,6 +121,25 @@ void leveOrderTraversal(node* root)
     }
 }
 
+int minValue(node* root)
+{
+    node *temp = root;
+    while(temp->left != NULL)
+    {
+        temp = temp->left;
+    }
+    return temp->data;
+}
+
+int maxValue(node* root)
+{
+    node *temp = root;
+    while(temp->right != NULL)
+    {
+        temp = temp->right;
+    }
+    return temp->data;
+}
 int main()
 {
     node *root = NULL;
