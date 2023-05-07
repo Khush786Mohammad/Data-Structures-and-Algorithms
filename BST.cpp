@@ -3,7 +3,6 @@
 #include<map>
 using namespace std;
 
-// Class Node Declaration
 class node
 {
     public:
@@ -19,10 +18,6 @@ class node
     }
 };
 
-int minValue(node*);
-int maxValue(node*);
-
-// Create BST
 node *CreateBST(node* root , int data)
 {
     if(root == NULL)
@@ -54,67 +49,6 @@ void takeInput(node* &root)
     }
 }
 
-//Delete from BST
-node* deleteFromBST(node* root , int val)
-{
-    if(root == NULL)
-    {
-        return root;
-    }
-    if(root->data == val)
-    {
-        // 0 - child
-        if(root -> left == NULL && root -> right == NULL)
-        {
-            delete root;
-            return NULL;
-        }
-
-        // 1 - child
-        if(root->left != NULL && root->right == NULL)
-        {
-            node* temp = root->left;
-            delete root;
-            return temp;
-        }
-        
-        if(root->right != NULL && root->left == NULL)
-        {
-            node* temp = root->right;
-            delete root;
-            return temp;
-        }
-
-        // 2- child
-        if(root->left != NULL && root->right != NULL)
-        {
-            //Either find and replace the minimum value node from right sub-tree
-            int mini = minValue(root->right);
-            root->data = mini;
-            root->right = deleteFromBST(root->right , mini);
-            return root;
-
-            //or find and replace the maximum value node from left sub-tree
-            /*int maxi = maxValue(root->left);
-            root->data = maxi;
-            root->left = deleteFromBST(root->left , maxi);
-            return root;
-            */
-        }
-
-    }
-    else if(root -> data > val)
-    {
-        root->left = deleteFromBST(root->left , val);
-    }
-    else
-    {
-        root->right = deleteFromBST(root->right , val);
-    }
-    return root;
-}
-
-// Inorder Traversal LNR 
 void inorder(node* root)
 {
     if(root == NULL)
@@ -126,7 +60,6 @@ void inorder(node* root)
     inorder(root->right);
 }
 
-// PreOrder Traversal NLR
 void preorder(node* root)
 {
     if(root == NULL)
@@ -139,7 +72,6 @@ void preorder(node* root)
     
 }
 
-// PostOrder Traversal LRN
 void postorder(node* root)
 {
     if(root == NULL)
@@ -150,7 +82,7 @@ void postorder(node* root)
     postorder(root->right);
     cout<<root->data<<" ";
 }
-// Level Order Traversal
+
 void leveOrderTraversal(node* root)
 {
     if(root == NULL)
@@ -163,10 +95,10 @@ void leveOrderTraversal(node* root)
 
     while(!q.empty())
     {
-        node* frontnode = q.front();
+        node* frontNode = q.front();
         q.pop();
 
-        if(frontnode == NULL)
+        if(frontNode == NULL)
         {
             cout<<endl;
             if(!q.empty())
@@ -176,21 +108,20 @@ void leveOrderTraversal(node* root)
         }
         else
         {
-            cout<<frontnode->data<<" ";
-            if(frontnode->left)
+            cout<<frontNode->data<<" ";
+            if(frontNode->left)
         {
-            q.push(frontnode->left);
+            q.push(frontNode->left);
         }
-            if(frontnode->right)
+            if(frontNode->right)
         {
-            q.push(frontnode->right);
+            q.push(frontNode->right);
         }
         }
         
     }
 }
 
-// Minimum Value in BST
 int minValue(node* root)
 {
     if(root == nullptr)
@@ -204,7 +135,6 @@ int minValue(node* root)
     return temp->data;
 }
 
-// Maximum Value in BST
 int maxValue(node* root)
 {
     if(root == NULL)
@@ -219,7 +149,6 @@ int maxValue(node* root)
     return temp->data;
 }
 
-// Create Mapping of Node to its parent
 void Node_To_Parent(node* root , map<node*,node*> &mp)
 {
     queue<node*> q;
@@ -245,7 +174,6 @@ void Node_To_Parent(node* root , map<node*,node*> &mp)
     }
 } 
 
-// Inorder Successor
 int successor(node* root , node* temp , map<node*,node*> &mp)
 {
     if(temp->right != NULL)
@@ -265,7 +193,6 @@ int successor(node* root , node* temp , map<node*,node*> &mp)
     return p->data;
 }
 
-// Inorder Predecessor
 int predecessor(node* root , node* temp , map<node*,node*> &mp)
 {
     if(temp->left != NULL)
@@ -285,7 +212,6 @@ int predecessor(node* root , node* temp , map<node*,node*> &mp)
     return parent->data;
 }
 
-// Main Function
 int main()
 {
     node *root = NULL;
@@ -314,63 +240,13 @@ int main()
     map<node*,node*> mp;
     Node_To_Parent(root,mp);
 
-    node* temp = root->left->left->right;
+    node* temp = root->right;
     cout<<"successor of "<<temp->data<<endl;
-    int succ = successor(root , temp , mp);
-    if(succ == -1)
-    cout<<"NULL\n";
-    else
-    cout<<succ;
+    cout<<successor(root , temp , mp);
     cout<<endl;
 
     cout<<"Predecessor of "<<temp->data<<endl;
-    int pre = predecessor(root,temp,mp);
-    if(pre == -1)
-    cout<<"NULL\n";
-    else
-    cout<<pre;
+    cout<<predecessor(root,temp,mp);
     cout<<endl;
-
-    // Deletion Part
-
-    root = deleteFromBST(root,20);
-
-    inorder(root);
-    cout<<endl;
-
-    preorder(root);
-    cout<<endl;
-
-    postorder(root);
-    cout<<endl;
-
-    leveOrderTraversal(root);
-    cout<<endl;
-
-    min = minValue(root);
-    cout<<"Minimum Value in BST is : "<<min<<endl;
-    max = maxValue(root);
-
-    cout<<"Maximum Value in BST is : "<<max<<endl;
-
-   
-    temp = root->left->left->right;
-    cout<<"successor of "<<temp->data<<endl;
-    succ = successor(root , temp , mp);
-    if(succ == -1)
-    cout<<"NULL\n";
-    else
-    cout<<succ;
-    cout<<endl;
-
-    cout<<"Predecessor of "<<temp->data<<endl;
-    pre = predecessor(root,temp,mp);
-    if(pre == -1)
-    cout<<"NULL\n";
-    else
-    cout<<pre;
-    cout<<endl;
-
-
     return 0;
 }
