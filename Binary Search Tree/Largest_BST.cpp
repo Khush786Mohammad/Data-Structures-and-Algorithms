@@ -18,6 +18,7 @@ info solve(TreeNode<int>* root , int &ans)
     info right = solve(root->right , ans);
 
     info currNode;
+    // Update the size of current node .
     currNode.size = left.size+right.size+1;
     currNode.maxi = max(root->data,right.maxi);
     currNode.mini = min(root->data,left.mini);
