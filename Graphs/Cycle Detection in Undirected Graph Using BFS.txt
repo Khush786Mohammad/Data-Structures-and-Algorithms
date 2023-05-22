@@ -1,0 +1,62 @@
+#include<unordered_map>
+#include<list>
+#include<queue>
+
+bool isCyclebfs(int node , unordered_map<int,bool> &visited , unordered_map<int,list<int>> &adj)
+{
+    visited[node] = 1;
+    queue<int> q;
+    q.push(node);
+
+    unordered_map<int,int> parent;
+    parent[node] = -1;
+
+    while(!q.empty())
+    {
+        int frontNode = q.front();
+        q.pop();
+
+        for(auto i : adj[frontNode])
+        {
+            if(visited[i] == true && i != parent[frontNode])
+            {
+                return true;
+            }
+            else if(!visited[i])
+            {
+                visited[i] = 1;
+                parent[i] = frontNode;
+                q.push(i);
+            }
+        }
+    }
+    return false;
+}
+
+
+string cycleDetection (vector<vector<int>>& edges, int n, int m)
+{
+    unordered_map<int,list<int>> adj;
+
+    for(int i = 0 ; i<m ; i++)
+    {
+        int u = edges[i][0];
+        int v = edges[i][1];
+
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    unordered_map<int,bool> visited;
+    // for  disconnected components;
+
+    for(int i = 1 ; i<=n ; i++)
+    {
+        if(!visited[i])
+        {
+            if(isCyclebfs(i,visited,adj))
+            return "Yes";
+        }
+    }
+    return "No";
+}
