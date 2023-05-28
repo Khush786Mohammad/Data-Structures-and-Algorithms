@@ -1,0 +1,43 @@
+class Solution
+{
+    private:
+    
+    void dfs(vector<int> adj[] , unordered_map<int,bool> &visited, stack<int> &st , int node)
+    {
+        visited[node] = 1;
+        
+        for(auto neighbour : adj[node])
+        {
+            if(!visited[neighbour])
+            {
+                dfs(adj,visited,st,neighbour);
+            }
+        }
+
+        // stack has the valid topological sort
+        st.push(node);
+    }
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    unordered_map<int,bool> visited;
+	    stack<int> st;
+	    
+	    for(int i = 0 ; i<V ; i++)
+	    {
+	        if(!visited[i])
+	        {
+	            dfs(adj,visited,st,i);
+	        }
+	    }
+	    vector<int> topSort;
+	    while(!st.empty())
+	    {
+	        int value = st.top();
+	        st.pop();
+	        topSort.push_back(value);
+	    }
+	    return topSort;
+	}
+};

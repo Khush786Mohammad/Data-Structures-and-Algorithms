@@ -1,0 +1,48 @@
+class Solution
+{
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // Kahn's Algorithm
+	    vector<int> indegree(V);
+	    vector<int> ans;
+	    
+	    //find the indegree of each vertex
+	    
+	    for(int i = 0 ; i<V ; i++)
+	    {
+	        for(auto j : adj[i])
+	        {
+	            indegree[j]++;
+	        }
+	    }
+	    
+	    queue<int> q;
+	    
+	    // now push those vertex in the queue of which indegree is 0
+	    for(int i = 0 ; i<V ; i++)
+	    {
+	        if(indegree[i] == 0)
+	        q.push(i);
+	    }
+	    
+	    //bfs
+	    
+	    while(!q.empty())
+	    {
+	        int frontNode = q.front();
+	        q.pop();
+	        
+	        ans.push_back(frontNode);
+	        
+	        for(auto neighbour : adj[frontNode])
+	        {
+	            indegree[neighbour]--;
+	            if(indegree[neighbour] == 0)
+	            q.push(neighbour);
+	        }
+	    }
+	    return ans;
+	}
+};
