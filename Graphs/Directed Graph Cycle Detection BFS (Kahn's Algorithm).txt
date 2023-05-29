@@ -1,0 +1,56 @@
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool isCyclic(int V, vector<int> adj[]) {
+        
+        // Cycle Detection Using BFS with Kahn's Algorithm
+        // If the valid topological sort of the graph is not present means cycle exist
+        
+        int count = 0;
+        
+        // find the indegree of all vertices
+        
+        vector<int> indegree(V);
+        
+        for(int i = 0 ; i < V ; i++)
+        {
+            for(auto j : adj[i])
+            {
+                indegree[j]++;
+            }
+        }
+        
+        queue<int> q;
+        
+        for(int i = 0 ; i<V ; i++)
+        {
+            // push all those vertices whose indegree is 0
+            if(indegree[i] == 0)
+            q.push(i);
+        }
+        
+        //apply bfs
+        
+        while(!q.empty())
+        {
+            int frontNode = q.front();
+            q.pop();
+            // count the vertices which are visited
+            count++;
+            
+            for(auto neighbour : adj[frontNode])
+            {
+                indegree[neighbour]--;
+                if(indegree[neighbour] == 0)
+                q.push(neighbour);
+            }
+        }
+        // If the number of visited vertex is not equal to the number of vertex then 
+        // cycle is present
+        if(count != V)
+        return true;
+        
+        return false;
+        
+    }
+};
