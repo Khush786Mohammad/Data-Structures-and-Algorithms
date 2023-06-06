@@ -49,7 +49,7 @@ class Solution {
         // cycle is present
         if(count != V)
         return true;
-        
+        else
         return false;
         
     }
