@@ -1,0 +1,114 @@
+#include <bits/stdc++.h> 
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) {
+    
+    unordered_map<int,list<pair<int,int>>> adj;
+    
+    //pair : first-> node second->weight
+    
+    for(int i = 0 ; i<edges ; i++)
+    {
+        int u = vec[i][0];
+        int v = vec[i][1];
+        int w = vec[i][2];
+
+        adj[u].push_back(make_pair(v,w));
+        adj[v].push_back(make_pair(u,w));
+    }
+
+    //create a distance vector of size vertices
+    
+    vector<int> dist(vertices,INT_MAX);
+ 
+    dist[source] = 0;
+    
+    //create a set
+    
+    // first->distance , second->node
+    set<pair<int,int>> st;
+    st.insert(make_pair(0,source));
+
+    while(!st.empty())
+    {
+        auto top = *(st.begin());
+        st.erase(st.begin());
+
+        int distance_to_Node = top.first;
+        int nodeValue = top.second;
+
+        for(auto neighbour: adj[nodeValue])
+        {
+            if(distance_to_Node+neighbour.second < dist[neighbour.first])
+            {
+                auto record = st.find(make_pair(dist[neighbour.first],neighbour.first));
+
+                if(record != st.end())
+                {
+                    st.erase(record);
+                }
+                //update the distance vector.
+                dist[neighbour.first] = distance_to_Node+neighbour.second;
+                st.insert(make_pair(dist[neighbour.first],neighbour.first));
+            }
+        }
+    }
+    return dist;
+
+
+
+//GFG
+
+
+
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) {
+    
+    unordered_map<int,list<pair<int,int>>> adj;
+    
+    //pair : first-> node second->weight
+    
+    for(int i = 0 ; i<edges ; i++)
+    {
+        int u = vec[i][0];
+        int v = vec[i][1];
+        int w = vec[i][2];
+
+        adj[u].push_back(make_pair(v,w));
+        adj[v].push_back(make_pair(u,w));
+    }
+
+    //create a distance vector of size vertices
+    
+    vector<int> dist(vertices,INT_MAX);
+ 
+    dist[source] = 0;
+    
+    //create a set
+    
+    // first->distance , second->node
+    set<pair<int,int>> st;
+    st.insert(make_pair(0,source));
+
+    while(!st.empty())
+    {
+        auto top = *(st.begin());
+        st.erase(st.begin());
+
+        int distance_to_Node = top.first;
+        int nodeValue = top.second;
+
+        for(auto neighbour: adj[nodeValue])
+        {
+            if(distance_to_Node+neighbour.second < dist[neighbour.first])
+            {
+                auto record = st.find(make_pair(dist[neighbour.first],neighbour.first));
+
+                if(record != st.end())
+                {
+                    st.erase(record);
+                }
+                //update the distance vector.
+                dist[neighbour.first] = distance_to_Node+neighbour.second;
+                st.insert(make_pair(dist[neighbour.first],neighbour.first));
+            }
+        }
+    }
+    return dist;
