@@ -1,0 +1,67 @@
+// Time Complexity : O(N^2)
+
+#include <bits/stdc++.h> 
+vector<pair<pair<int, int>, int>> calculatePrimsMST(int n, int m, vector<pair<pair<int, int>, int>> &g)
+{
+    unordered_map<int,list<pair<int,int>>> adj;
+
+    for(int i = 0 ; i<g.size() ; i++)
+    {
+        int u = g[i].first.first;
+        int v = g[i].first.second;
+
+        int w = g[i].second;
+
+        adj[u].push_back({v,w});
+        adj[v].push_back({u,w});
+    }
+
+    vector<int> key(n+1,INT_MAX);
+    vector<bool> visited(n+1,false);
+    vector<int> parent(n+1,-1);
+    
+   
+
+    key[1] = 0;
+
+    for(int i = 1 ; i<=n ; i++)
+    {
+        int mini = INT_MAX;
+       
+        int node;
+
+        // find the node with minimum weight in key array
+
+        for(int j = 1 ; j<=n ; j++)
+        {
+            if(!visited[j] && key[j] < mini)
+            {
+                mini = key[j];
+                node = j;
+            }
+        }
+
+        visited[node] = 1;
+
+        //check its adjacent node;
+
+        for(auto itr : adj[node])
+        {
+            int v = itr.first;
+            int weight = itr.second;
+
+            if(!visited[itr.first] && weight < key[itr.first])
+            {
+                key[v] = weight;
+                parent[itr.first] = node;
+            }
+        }
+    }
+
+    vector<pair<pair<int, int>, int>> result;
+    for(int i = 2 ; i <= n ; i++)
+    {
+        result.push_back({{parent[i],i},key[i]});
+    }
+    return result;
+}
