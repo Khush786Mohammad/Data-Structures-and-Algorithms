@@ -1,0 +1,88 @@
+class Solution
+{
+    priority_queue<int> maxheap;
+    priority_queue<int,vector<int>,greater<int>> minheap;
+    
+    int element;
+    
+    double median = 0;
+    
+    public:
+    
+    
+    void insertHeap(int &x)
+    {
+        this->element = x;
+        balanceHeaps();
+    }
+    
+    //Function to balance heaps.
+    void balanceHeaps()
+    {
+        int a;
+        if(maxheap.size() == minheap.size())
+        a = 0;
+        else if(maxheap.size() > minheap.size())
+        a = 1;
+        else
+        a = -1;
+        
+        switch(a)
+        {
+            case 0:
+            
+            if(element > median)
+            {
+                minheap.push(element);
+                this->median = minheap.top(); 
+            }
+            else
+            {
+                maxheap.push(element);
+                this->median = maxheap.top();
+            }
+            
+            break;
+            
+            case 1:
+            
+            if(element > median)
+            {
+                minheap.push(element);
+                this->median = (maxheap.top() + minheap.top())/2;
+            }
+            else
+            {
+                minheap.push(maxheap.top());
+                maxheap.pop();
+                
+                maxheap.push(element);
+                this->median = (maxheap.top() + minheap.top())/2;
+            }
+            break;
+            
+            case -1:
+            
+            if(element > median)
+            {
+                maxheap.push(minheap.top());
+                minheap.pop();
+                minheap.push(element);
+                this->median = (maxheap.top() + minheap.top())/2;
+            }
+            else
+            {
+                maxheap.push(element);
+                this->median = (maxheap.top() + minheap.top())/2;
+            }
+            
+            break;
+        }
+    }
+    
+    //Function to return Median.
+    double getMedian()
+    {
+        return median;
+    }
+};
