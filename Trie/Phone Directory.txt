@@ -1,0 +1,113 @@
+class TrieNode{
+    public:
+    char data;
+    TrieNode* children[26];
+    bool isTerminal;
+    
+    TrieNode(char ch)
+    {
+        this->data = ch;
+        for(int i = 0 ; i<26 ; i++)
+        {
+            this->children[i] = NULL;
+        }
+        isTerminal = false;
+    }
+};
+
+class Solution{
+    TrieNode* root;
+public:
+    Solution(){
+        root = new TrieNode('\0');
+    }
+    
+    void insertWordUtil(TrieNode* root , string word)
+    {
+        if(word.length() == 0)
+        {
+            root->isTerminal = true;
+            return ;
+        }
+        
+        int index = word[0]-'a';
+        TrieNode* child;
+        
+        if(root->children[index] != NULL)
+        {
+            child = root->children[index];
+        }
+        else
+        {
+            child = new TrieNode(word[0]);
+            root->children[index] = child;
+        }
+        insertWordUtil(child,word.substr(1));
+    }
+    
+    void insertWord(string word){
+        insertWordUtil(root,word);
+    }
+    
+    void printSuggestion(TrieNode* curr , vector<string>& temp , string prefix)
+    {
+        if(curr->isTerminal)
+        {
+            temp.push_back(prefix);
+        }
+        for(char ch = 'a' ; ch<='z' ; ch++)
+        {
+            if(curr->children[ch-'a'] != NULL)
+            {
+                prefix.push_back(ch);
+                printSuggestion(curr->children[ch-'a'],temp,prefix);
+                prefix.pop_back();
+            }
+        }
+    }
+    
+    vector<vector<string>> getSuggestion(string s)
+    {
+        string prefix = "";
+        TrieNode* prev = root;
+        
+        vector<vector<string>> ans;
+        
+        for(int i = 0 ; i<s.length() ; i++)
+        {
+            char ch = s[i];
+            int index = ch-'a';
+            prefix.push_back(ch);
+            
+            TrieNode* curr = prev->children[index];
+            if(curr != NULL)
+            {
+                vector<string> temp;
+                printSuggestion(curr,temp,prefix);
+                ans.push_back(temp);
+                temp.clear();
+                prev = curr;
+            }
+            else
+            {
+                for(int j = i ; j<s.length() ; j++)
+                ans.push_back({"0"});
+                break;
+            }
+        }
+        return ans;
+    }
+    
+    vector<vector<string>> displayContacts(int n, string contact[], string s)
+    {
+        Solution *t = new Solution();
+        
+        for(int i = 0 ; i<n ; i++)
+        {
+            string temp = contact[i];
+            t->insertWord(temp);
+        }
+        
+        return t->getSuggestion(s);
+    }
+};
