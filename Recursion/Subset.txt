@@ -1,0 +1,27 @@
+class Solution {
+    private:
+    void subsequence(vector<int>& nums,int i,int n,vector<int>& temp,vector<vector<int>>&ans)
+    {
+        if(i>=n)
+        {
+            ans.push_back(temp);
+            return ;
+        }
+        
+        temp.push_back(nums[i]);
+        subsequence(nums,i+1,n,temp,ans);
+        temp.pop_back();
+        subsequence(nums,i+1,n,temp,ans);
+    }
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        
+        int i =0;
+        int n = nums.size();
+        vector<int> temp;
+        vector<vector<int>> ans;
+
+        subsequence(nums,i,n,temp,ans);
+        return ans;
+    }
+};

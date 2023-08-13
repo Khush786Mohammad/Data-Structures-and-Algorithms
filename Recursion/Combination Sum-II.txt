@@ -1,0 +1,47 @@
+class Solution {
+    private:
+    void func(vector<int>& candidates,int index, int n,int target,vector<int>& ds,vector<vector<int>>& ans)
+    {
+        if(target == 0)
+        {
+            ans.push_back(ds);
+            return ;
+        }
+        if(index >= n)
+        {
+            return ;
+        }
+
+        if(target >= candidates[index])
+        {
+            ds.push_back(candidates[index]);
+            func(candidates,index+1,n,target-candidates[index],ds,ans);
+            ds.pop_back();
+
+            for(int i=index+1 ; i<n ; i++)
+            {
+                if(candidates[i] != candidates[i-1])
+                {
+                    ds.push_back(candidates[i]);
+                    func(candidates,i+1,n,target-candidates[i],ds,ans);
+                    ds.pop_back();
+                }
+            }
+        }
+        else
+        return ;
+    }
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        
+        vector<int> ds;
+        vector<vector<int>> ans;
+
+        sort(candidates.begin(),candidates.end());
+
+        int index = 0;
+        int n = candidates.size();
+        func(candidates,index,n,target,ds,ans);
+        return ans;
+    }
+};

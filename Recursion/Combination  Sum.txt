@@ -1,0 +1,33 @@
+class Solution {
+    private:
+    void combinations(vector<int>&candidates,int i,int n,int target,vector<int> &temp,vector<vector<int>> &ans)
+    {
+        //base case
+        if(i >= n)
+        {
+            return ;
+        }
+        if(target == 0)
+        {
+            ans.push_back(temp);
+            return;
+        }
+        if(target >= candidates[i])
+        {
+           temp.push_back(candidates[i]);
+           combinations(candidates,i,n,target-candidates[i],temp,ans);
+           temp.pop_back();
+        }
+        combinations(candidates,i+1,n,target,temp,ans);
+    }
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+
+        int n = candidates.size();
+
+        combinations(candidates,0,n,target,temp,ans);
+        return ans;
+    }
+};
