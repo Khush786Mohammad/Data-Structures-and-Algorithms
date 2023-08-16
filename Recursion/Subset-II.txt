@@ -1,0 +1,35 @@
+class Solution {
+    private:
+    void findSubset(vector<int>& nums,int index,int n,vector<int>& temp,vector<vector<int>>& ans)
+    {
+        ans.push_back(temp);
+
+        if(index==n)
+        return;
+
+        temp.push_back(nums[index]);
+        findSubset(nums,index+1,n,temp,ans);
+        temp.pop_back();
+        for(int i = index+1; i<n ; i++)
+        {
+            if(nums[i] != nums[i-1])
+            {
+                temp.push_back(nums[i]);
+                findSubset(nums,i+1,n,temp,ans);
+                temp.pop_back();
+            }
+        }
+    }
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        
+        sort(nums.begin(),nums.end());
+        vector<int> temp;
+        vector<vector<int>> ans;
+
+        int index = 0;
+        int n = nums.size();
+        findSubset(nums,index,n,temp,ans);
+        return ans;
+    }
+};

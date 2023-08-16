@@ -1,0 +1,23 @@
+class Solution {
+public:
+    void findPermutation(vector<int>& nums,int index,int n,vector<vector<int>>& ans)
+    {
+        if(index == n)
+        {
+            ans.push_back(nums);
+        }
+        for(int i = index ; i<n ; i++)
+        {
+            swap(nums[i],nums[index]);
+            findPermutation(nums,index+1,n,ans);
+            swap(nums[i],nums[index]);
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ans;
+        int index = 0;
+        int n = nums.size();
+        findPermutation(nums,index,n,ans);
+        return ans;
+    }
+};

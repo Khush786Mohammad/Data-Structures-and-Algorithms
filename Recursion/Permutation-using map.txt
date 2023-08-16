@@ -1,0 +1,35 @@
+class Solution {
+    private:
+    void findPermutation(vector<int>& nums,vector<int>& temp,vector<vector<int>>& ans,
+                        map<int,bool>& mp)
+    {
+        //base case
+        if(temp.size() == nums.size())
+        {
+            ans.push_back(temp);
+            return ;
+        }
+        for(int i = 0 ; i<nums.size() ; i++)
+        {
+            if(!mp[nums[i]])
+            {
+                temp.push_back(nums[i]);
+                mp[nums[i]] = true;
+                findPermutation(nums,temp,ans,mp);
+                temp.pop_back();
+                mp[nums[i]] = false;
+            }
+        }
+    }
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        
+        vector<int> temp;
+        vector<vector<int>> ans;
+        map<int,bool> mp;
+
+        findPermutation(nums,temp,ans,mp);
+
+        return ans;
+    }
+};
