@@ -1,0 +1,57 @@
+class Solution {
+    private:
+       bool isPossible(int row , int col , vector<vector<char>>& board)
+    {
+       set<char> st;
+        for(int i = 0 ; i<9 ; i++)
+        {
+            int sub_row = (3*(row / 3) + i / 3);
+            int sub_col = (3*(col / 3) + i % 3);
+
+            if((board[sub_row][sub_col] != '.') && (st.find(board[sub_row][sub_col])!=st.end()))
+            {
+                return false;
+            }
+            st.insert(board[sub_row][sub_col]);
+        }
+        return true;
+    }
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        //check for row
+        for(int i = 0 ; i<9 ; i++)
+        {
+           set<char> setRow;
+           set<char> setCol;
+            for(int j = 0 ; j<9 ; j++)
+            {
+                if(board[i][j] != '.' && setRow.find(board[i][j]) != setRow.end())
+                {
+                    return false;
+                }
+                 if(board[j][i] != '.' && setCol.find(board[j][i]) != setCol.end())
+                {
+                    return false;
+                }
+                setCol.insert(board[j][i]);
+                setRow.insert(board[i][j]);
+            }
+        }
+
+        //check for sub_boxes of size 3*3
+        for(int i = 0 ; i<9 ; )
+        {
+            for(int j = 0 ; j<9 ; )
+            {
+                if(!isPossible(i,j,board))
+                {
+                    return false;
+                }
+                j=j+3;
+            }
+            i=i+3;
+        }
+        return true;
+    }
+ 
+};
