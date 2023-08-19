@@ -1,0 +1,74 @@
+class Solution{
+    typedef long long ll;
+  public:
+  
+    ll merge(ll arr[] , ll low ,ll mid , ll high)
+    {
+        ll n = high-low+1;
+        ll i = low;
+        ll j = mid+1;
+        ll k = 0;
+        
+        ll new_arr[n];
+        ll cnt = 0;
+        
+        while(i<=mid && j<=high)
+        {
+            if(arr[i] <= arr[j])
+            {
+                new_arr[k] = arr[i];
+                i++;
+                k++;
+            }
+            else
+            {
+                cnt += mid-i+1;
+                new_arr[k] = arr[j];
+                k++;
+                j++;
+            }
+        }
+        
+        while(i<=mid)
+        {
+            new_arr[k] = arr[i];
+            i++;
+            k++;
+        }
+        
+        while(j<=high)
+        {
+            new_arr[k] = arr[j];
+            j++;
+            k++;
+        }
+        
+        //copy the new array to old
+        
+        for(int i = 0 , j = low ; i<n ; i++,j++)
+        {
+            arr[j] = new_arr[i];
+        }
+        return cnt;
+    }
+  
+    ll mergeSort(ll arr[] , ll low , ll high)
+    {
+        ll cnt = 0;
+        if(low < high)
+        {
+            ll mid = low+(high-low)/2;
+            cnt += mergeSort(arr,low,mid);
+            cnt += mergeSort(arr,mid+1,high);
+            cnt +=merge(arr,low,mid,high);
+        }
+        return cnt;
+    }
+    
+    
+    long long int inversionCount(long long arr[], long long N)
+    {
+        return mergeSort(arr,0,N-1);
+    }
+
+};
