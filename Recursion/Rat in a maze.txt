@@ -1,0 +1,79 @@
+class Solution{
+    private:
+    bool isPossible(vector<vector<int>>& mat , int i ,int j , int n , vector<vector<bool>>& visited)
+    {
+        if((i>=0 && i<n)&&(j>=0 && j<n) && (mat[i][j] == 1) && visited[i][j] == false)
+        {
+            return true;
+        }
+        return false;
+    }
+    void solve(vector<vector<int>>& mat , int i , int j ,int n ,vector<string>& ans,vector<vector<bool>>& visited,string path)
+    {
+        if(i == n-1 && j == n-1)
+        {
+            ans.push_back(path);
+            return ;
+        }
+        
+        visited[i][j] = true;
+        //up
+        int row_x = i-1;
+        int row_y = j;
+        
+        if(isPossible(mat,row_x,row_y,n,visited))
+        {
+            path.push_back('U');
+            solve(mat,row_x,row_y,n,ans,visited,path);
+            path.pop_back();
+        }
+        
+        //down
+        row_x = i+1;
+        row_y = j;
+        
+        if(isPossible(mat,row_x,row_y,n,visited))
+        {
+            path.push_back('D');
+            solve(mat,row_x,row_y,n,ans,visited,path);
+            path.pop_back();
+        }
+        
+        //left
+        row_x = i;
+        row_y = j-1;
+        if(isPossible(mat,row_x,row_y,n,visited))
+        {
+            path.push_back('L');
+            solve(mat,row_x,row_y,n,ans,visited,path);
+            path.pop_back();
+        }
+        
+        //right
+        row_x = i;
+        row_y = j+1;
+        if(isPossible(mat,row_x,row_y,n,visited))
+        {
+            path.push_back('R');
+            solve(mat,row_x,row_y,n,ans,visited,path);
+            path.pop_back();
+        }
+        visited[i][j] = false;
+    }
+    public:
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        if(m[0][0] == 0)
+        return {};
+        int row = m.size();
+        int col = m[0].size();
+        vector<vector<bool>> visited(row,vector<bool>(col,false));
+        vector<string> ans;
+        string path = "";
+        int i = 0;
+        int j = 0;
+        
+        solve(m,i,j,n,ans,visited,path);
+        
+        return ans;
+    }
+};

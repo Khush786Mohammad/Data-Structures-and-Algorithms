@@ -1,0 +1,43 @@
+class Solution {
+    private:
+    bool isPalindrome(int i , int j , string s)
+    {
+        while(i < j)
+        {
+            if(s[i] != s[j])
+            return false;
+
+            i++;
+            j--;
+        }
+        return true;
+    }
+    void partitionPalindrome(string s , int index , vector<string>& temp,vector<vector<string>>& ans)
+    {
+        if(index == s.length())
+        {
+            ans.push_back(temp);
+            return ;
+        }
+
+        //partition from index to n-1
+        for(int i = index ; i<s.length() ; i++)
+        {
+            if(isPalindrome(index,i,s))
+            {
+                temp.push_back(s.substr(index,i-index+1));
+                partitionPalindrome(s,i+1,temp,ans);
+                temp.pop_back();
+            }
+        }
+    }
+public:
+    vector<vector<string>> partition(string s) {
+        
+        int index = 0;
+        vector<string> temp;
+        vector<vector<string>> ans;
+        partitionPalindrome(s,index,temp,ans);
+        return ans;
+    }
+};

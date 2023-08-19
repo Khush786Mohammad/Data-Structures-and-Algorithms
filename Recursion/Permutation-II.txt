@@ -1,0 +1,33 @@
+class Solution {
+    private:
+    void permutation(vector<int>& nums,int index,int n,set<vector<int>>& st)
+    {
+        if(index == n)
+        {
+            st.insert(nums);
+            return ;
+        }
+
+        for(int i = index ; i<n ; i++)
+        {
+            swap(nums[i],nums[index]);
+            permutation(nums,index+1,n,st);
+            swap(nums[i],nums[index]);
+        }
+    }
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> ans;
+        set<vector<int>> st;
+
+        int index = 0;
+        permutation(nums,index,nums.size(),st);
+
+        for(auto itr : st)
+        {
+            ans.push_back(itr);
+        }
+        return ans;
+
+    }
+};
