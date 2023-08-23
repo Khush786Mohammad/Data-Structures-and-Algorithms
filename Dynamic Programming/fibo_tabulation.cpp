@@ -21,7 +21,7 @@ int main()
     int num;
     cout<<"Enter a number\n";
     cin>>num;
-    vector<int> dp(num+1,-1);
+    vector<int> dp(num,-1);
     cout<<fibo(num,dp);
     return 0;
 }
