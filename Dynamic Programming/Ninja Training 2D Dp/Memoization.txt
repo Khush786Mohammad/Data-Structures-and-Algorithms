@@ -1,0 +1,39 @@
+
+int solve(int day,int LastDayTask , vector<vector<int>>& points,vector<vector<int>>& dp)
+{
+    if(day == 0)
+    {
+        int maxi = 0;
+        for(int i = 0 ; i<3 ; i++)
+        {
+            if(i != LastDayTask)
+            {
+                maxi = max(maxi,points[day][i]);
+            }
+        }
+        return maxi;
+    }
+
+    //try all possible stuffs
+
+    if(dp[day][LastDayTask] != -1)
+    return dp[day][LastDayTask];
+
+    int maxi = 0;
+    for(int i = 0 ; i<3 ; i++)
+    {
+        int score;
+        if(i != LastDayTask)
+        {
+            score = points[day][i] + solve(day-1,i,points,dp);
+            maxi = max(maxi,score);
+        }
+    }
+    return dp[day][LastDayTask] = maxi;
+}
+
+int ninjaTraining(int n, vector<vector<int>> &points)
+{
+    vector<vector<int>> dp(n,vector<int>(4,-1));
+    return solve(n-1,3,points,dp);
+}
