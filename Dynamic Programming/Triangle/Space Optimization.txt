@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        
+        int n = triangle.size();
+        vector<int> dp1(n,0) , dp2(n,0);
+
+        for(int i = n-1 ; i>=0 ; i--)
+        dp1[i] = triangle[n-1][i];
+
+        for(int i = n-2 ; i>=0 ; i--)
+        {
+            for(int j = i ; j>=0 ; j--)
+            {
+                int down = triangle[i][j] + dp1[j];
+                int downDiagonal = triangle[i][j] + dp1[j+1];
+
+                dp2[j] = min(down,downDiagonal);
+            }
+            dp1 = dp2;
+        }
+        return dp1[0];
+    }
+};
