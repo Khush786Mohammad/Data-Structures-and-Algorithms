@@ -1,0 +1,33 @@
+// TLE on Leetcode
+class Solution {
+    private:
+    int solve(int i , int j , int n , vector<vector<int>>& matrix , vector<vector<int>>& dp)
+    {
+        if(j < 0 || j > n-1)
+        return 10000;
+        if(i == 0)
+        return matrix[i][j];
+
+        if(dp[i][j] != -1)
+        return dp[i][j]; 
+
+        int up = solve(i-1,j,n,matrix,dp);
+        int upLeftDiagonal = solve(i-1,j-1,n,matrix,dp);
+        int upRightDiagonal = solve(i-1,j+1,n,matrix,dp);
+
+        return  dp[i][j] = min(up,min(upLeftDiagonal,upRightDiagonal)) + matrix[i][j];
+    }
+public:
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+
+        int n = matrix.size();
+        int ans = INT_MAX;
+        
+        vector<vector<int>> dp(n,vector<int>(n,-1));
+        for(int j = 0 ; j<n ; ++j)
+        {
+            ans = min(ans,solve(n-1,j,n,matrix,dp));
+        }
+        return ans;
+    }
+};
