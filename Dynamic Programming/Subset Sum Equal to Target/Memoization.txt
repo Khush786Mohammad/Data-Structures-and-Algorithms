@@ -1,0 +1,27 @@
+#include <bits/stdc++.h> 
+
+bool solve(int ind,int n , int target , vector<int>& arr,vector<vector<int>>& dp)
+{
+    if(target == 0)
+    {
+        return true;
+    }
+    if(ind == 0)
+    return arr[0] == target;
+
+    if(dp[ind][target] != -1)
+    return dp[ind][target];
+
+    bool notPick = solve(ind-1,n,target,arr,dp);
+    bool pick = false;
+    if(target >= arr[ind])
+    pick = solve(ind-1,n,target-arr[ind],arr,dp);
+
+    return dp[ind][target] = notPick || pick;
+}
+
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    int ind = n-1;
+    vector<vector<int>> dp(n,vector<int>(k+1,-1));
+    return solve(ind,n,k,arr,dp);
+}
