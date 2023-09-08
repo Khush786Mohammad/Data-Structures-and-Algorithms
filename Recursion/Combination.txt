@@ -1,0 +1,29 @@
+class Solution {
+    private:
+    void solve(int ind , int n,int val,vector<int>& temp,vector<vector<int>>& ans,int k)
+    {
+        if(temp.size() == k)
+        {
+            ans.push_back(temp);
+            return ;
+        }
+        if(ind == n)
+        {
+            return ;
+        }
+        temp.push_back(val);
+        solve(ind+1,n,val+1,temp,ans,k);
+        temp.pop_back();
+        solve(ind+1,n,val+1,temp,ans,k);
+
+    }
+public:
+    vector<vector<int>> combine(int n, int k) {
+        int val = 1;
+        vector<int> temp;
+        vector<vector<int>> ans;
+        int ind = 0;
+        solve(ind,n,val,temp,ans,k);
+        return ans;
+    }
+};
