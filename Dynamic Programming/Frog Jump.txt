@@ -1,0 +1,34 @@
+class Solution {
+    private:
+    bool solve(int idx,int prevJump,int n,vector<int>& s,unordered_map<int,int>& mp,vector<vector<int>>& dp)
+    {
+        if(idx == n-1)
+        return true;
+
+        if(dp[idx][prevJump] != -1)
+        return dp[idx][prevJump];
+
+        bool result = false;
+        for(int j = -1 ; j<= +1 ; j++)
+        {
+            int nextJump = prevJump + j;
+            if(nextJump > 0 && mp.find(s[idx]+nextJump) != mp.end())
+            {
+                result = result || solve(mp[s[idx]+nextJump],nextJump,n,s,mp,dp);
+            }
+        }
+        return dp[idx][prevJump] = result;
+    }
+public:
+    bool canCross(vector<int>& stones) {
+        int idx = 0;
+        int jump = 0;
+        unordered_map<int,int> mp;
+        int n = stones.size();
+        for(int i = 0 ; i<n ; i++)
+        {
+            mp.insert({stones[i],i});
+        }
+        vector<vector<int>> dp(n+1,vector<int>(n+1,-1));
+        return solve(idx,jump,n,stones,mp,dp);
+    }
