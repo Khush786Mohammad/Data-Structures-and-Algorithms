@@ -1,0 +1,50 @@
+class Solution {
+    private:
+    int countNodes(ListNode* head)
+    {
+        ListNode* temp = head;
+        int cnt = 0;
+        while(temp != NULL)
+        {
+            temp = temp->next;
+            cnt += 1;
+        }
+        return cnt;
+    }
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(head == NULL || head->next == NULL || head->next->next == NULL)
+        return head;
+
+        int cnt = 1;
+
+        ListNode* newHead = head;
+
+        ListNode* nextNode = head;
+
+        int count = countNodes(head)/2;
+
+        while(cnt <= count)
+        {
+            int temp = cnt;
+            while(temp--)
+            {
+                nextNode = nextNode->next;
+            }
+
+            ListNode* pointToPlace = newHead->next;
+
+            if(nextNode && nextNode->next != NULL)
+            {
+                newHead->next = nextNode->next;
+                nextNode->next = nextNode->next->next;
+                newHead->next->next = pointToPlace;
+
+            }
+            cnt += 1;
+            newHead = newHead->next;
+            nextNode = newHead;
+        }
+        return head;
+    }
+};

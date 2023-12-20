@@ -1,0 +1,40 @@
+class Solution {
+    private:
+    pair<int,ListNode*> countNodes(ListNode* head)
+    {
+        ListNode* temp = head;
+        int cnt = 0;
+        ListNode* lastNode;
+        while(temp != NULL)
+        {
+            cnt += 1;
+            lastNode = temp;
+            temp = temp->next;
+        }
+        return {cnt,lastNode};
+    }
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        pair<int,ListNode*> p = countNodes(head);
+        int n = p.first;
+        ListNode* lastNode = p.second;
+
+        if(head == NULL || head->next == NULL || k == 0 || k%n == 0)
+        return head;
+
+        k = k%n;
+        // make it circular Linked List;
+        lastNode->next = head;
+
+        int len = (n - k)-1;
+        ListNode* temp = head;
+        ListNode* newHead = NULL;
+        while(len--)
+        {
+            temp = temp->next;
+        }
+        newHead = temp->next;
+        temp->next = NULL;
+        return newHead;
+    }
+};
