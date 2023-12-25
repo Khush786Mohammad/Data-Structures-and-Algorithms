@@ -1,0 +1,39 @@
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(head == NULL)
+        return head;
+
+        Node* temp = head;
+
+        while(temp != NULL)
+        {
+            Node* node = new Node(temp->val);
+            node->next = temp->next;
+            temp->next = node;
+            temp = node->next;
+        }
+
+        //copy random pointer
+        temp = head;
+        while(temp != NULL)
+        {
+            Node* node = temp->next;
+            node->random = (temp->random) ? temp->random->next : NULL;
+            temp = node->next;
+        }
+
+        //break the orignal list and clone list
+        Node* newHead = head->next;
+        temp = head;
+
+        while(temp->next != NULL)
+        {
+            Node* node = temp->next;
+            temp->next = node->next;
+            temp = node;
+        }
+        return newHead;
+
+    }
+};

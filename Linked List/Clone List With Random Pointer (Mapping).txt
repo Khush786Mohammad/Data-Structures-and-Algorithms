@@ -1,0 +1,33 @@
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(head == NULL)
+        return head;
+
+        //create a mapping of old node to new node
+        unordered_map<Node*,Node*> old_to_new;
+
+        Node* newHead = new Node(-1);
+        Node* ans = newHead;
+        Node* temp = head;
+
+        while(temp != NULL)
+        {
+            Node* newNode = new Node(temp->val);
+            newHead->next = newNode;
+            old_to_new[temp] = newNode;
+            temp = temp->next;
+            newHead = newHead->next;
+        }
+        
+        temp = head;
+        newHead = ans->next;
+        while(temp != NULL)
+        {
+        newHead->random = (temp->random != NULL) ? old_to_new[temp->random] : NULL;
+        newHead = newHead->next;
+        temp = temp->next;
+        }
+        return ans->next;
+    }
+};
