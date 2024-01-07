@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int minDays = INT_MAX;
+        int maxDays = INT_MIN;
+        int n = bloomDay.size();
+
+        if(m*k > n)
+        return -1;
+
+        for(int i = 0 ; i<n ; i++)
+        {
+            minDays = min(minDays,bloomDay[i]);
+            maxDays = max(maxDays,bloomDay[i]);
+        }
+
+        int ans = -1;
+        
+        for(int i = minDays ; i<=maxDays; i++)
+        {
+            int j = 0;
+            int totalBouquets = 0;
+            while(j<n)
+            {
+                // cout<<"hello";
+                int u = j;
+                int cnt = 0;
+                while(u<n && i >= bloomDay[u])
+                {
+                    cnt++;
+                    u++;
+                } 
+                j = u+1;
+                totalBouquets += cnt/k;
+            }
+            if(ans == -1 && totalBouquets>=m)
+            {
+                ans = i;
+                
+            }
+            if(totalBouquets >= m)
+            {
+                
+                ans = min(i,ans);
+            }
+        }
+        return ans;
+    }
+};
