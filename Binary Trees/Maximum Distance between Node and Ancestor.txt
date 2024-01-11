@@ -1,0 +1,42 @@
+class Solution {
+    private:
+    pair<int,int> solve(TreeNode* root , int &ans)
+    {
+        if(root == NULL)
+        return {-1,-1};
+
+        if(root->left == NULL && root->right == NULL)
+        return {root->val,root->val};
+
+        pair<int,int> leftCall = solve(root->left,ans);
+        pair<int,int> rightCall = solve(root->right,ans);
+
+        int leftMax = leftCall.first;
+        int leftMin = leftCall.second;
+        int rightMax = rightCall.first;
+        int rightMin = rightCall.second;
+        int value = root->val;
+        if(leftMax != -1 && rightMax == -1)
+        {
+            ans = max({ans,abs(value-leftMax),abs(value-leftMin)});
+            return {max(value,leftMax),min(value,leftMin)};
+        }
+        if(leftMax == -1 && rightMax != -1)
+        {
+            ans = max({ans,abs(value-rightMax),abs(value-rightMin)});
+            return {max(value,rightMax),min(value,rightMin)};
+        }
+        ans = max({ans,abs(value-leftMax),abs(value-leftMin)});
+        ans = max({ans,abs(value-rightMax),abs(value-rightMin)});
+        cout<<ans<<" ";
+        return {max({value,leftMax,rightMax}),min({value,leftMin,rightMin})};
+
+    }
+public:
+    int maxAncestorDiff(TreeNode* root) {
+
+        int ans = 0;
+        pair<int,int> func = solve(root,ans);
+        return ans;
+    }
+};
