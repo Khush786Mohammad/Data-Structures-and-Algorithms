@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int days) {
+        long long int totalWeights = 0;
+        int maxi = INT_MIN;
+        int n = weights.size();
+
+        for(int i = 0 ; i<n ; i++)
+        {
+            totalWeights += weights[i];
+            maxi = max(maxi,weights[i]);
+        }
+
+        int ans = 0;
+        int low = maxi;
+        int high = totalWeights;
+
+        while(low <= high)
+        {
+            long long int mid = low + (high-low)/2;
+            int j = 0;
+            int cnt = 0;
+
+            while(j<n)
+            {
+                int k = j;
+                int sum = 0;
+                while(k<n && sum+weights[k] <= mid)
+                {
+                    sum += weights[k];
+                    k++;
+                }
+                j = k;
+                cnt += 1;
+            }
+
+            if(cnt <= days)
+            {
+                ans = mid;
+                high = mid-1;
+            }
+            else
+            {
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+};
