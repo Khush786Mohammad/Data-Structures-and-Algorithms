@@ -1,0 +1,53 @@
+class Solution 
+{
+    private
+    int isPossible(int arr[], int n, int pages)
+    {
+        int cntStudents = 1;
+        int last = 0;
+        for(int i = 0 ; in ; i++)
+        {
+            if(arr[i]+last = pages)
+            {
+                last += arr[i];
+                continue;
+            }
+            else
+            {
+                last = arr[i];
+                cntStudents++;
+            }
+        }
+        return cntStudents;
+    }
+    public
+    Function to find minimum number of pages.
+    int findPages(int arr[], int N, int M) 
+    {
+        if(M  N)
+        return -1;
+        
+        int low = -1;
+        int high = 0;
+        
+        for(int i = 0 ; iN ; i++)
+        {
+            low = max(low,arr[i]);
+            high += arr[i];
+        }
+        
+        while(low = high)
+        {
+            int mid = low + (high-low)2;
+            int noStudent = isPossible(arr,N,mid);
+            if(noStudent  M)
+            {
+                low = mid+1;
+            }
+            else
+            {
+                high = mid-1;
+            }
+        }
+    }
+};
