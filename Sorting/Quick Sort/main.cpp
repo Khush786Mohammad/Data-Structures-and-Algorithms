@@ -4,11 +4,11 @@ using namespace std;
 
 int partition(vector<int> &nums , int lb , int ub)
 {
-    int pivot = nums[ub];
+    int pivot = nums[lb];
     int start = lb;
     int end = ub;
 
-    while(start < end)
+    while(start <= end)
     {
         while(pivot >= nums[start] && start < ub)
         {
@@ -39,12 +39,8 @@ void quickSort(vector<int>&nums, int low ,int high)
 
 int main()
 {
-    int n ;
-    cin>>n;
-    vector<int> nums(n);
-    cout<<"Enter the vector elements\n";
-    for(int i = 0 ; i<n ; i++)
-    cin>>nums[i];
+    vector<int> nums = {4,1,7,9,3};
+    int n = nums.size();
 
     int low = 0;
     int high = n-1;
