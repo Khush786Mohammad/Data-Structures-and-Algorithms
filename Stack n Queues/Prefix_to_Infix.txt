@@ -1,0 +1,35 @@
+// User function Template for C++
+
+class Solution {
+  public:
+    string preToInfix(string prefix) {
+        //reverse the string
+        reverse(prefix.begin(), prefix.end());
+        int n = prefix.size();
+        stack<string> st;
+        
+        for(int i = 0 ; i<n ; i++)
+        {
+            //check if the current symbol is operand then push it into the stack
+            if((prefix[i] >= 'A' && prefix[i] <= 'Z') || (prefix[i] >= 'a' && prefix[i] <= 'z'))
+            {
+                string symbol = "";
+                symbol.push_back(prefix[i]);
+                st.push(symbol);
+            }
+            else
+            {
+                //the symbol is operator; then pop two operands from the stack
+                string operand1 = st.top();
+                st.pop();
+                string operand2 = st.top();
+                st.pop();
+                
+                string result = "(" + operand1 + prefix[i] + operand2 + ")";
+                //now push back the result to the stack again
+                st.push(result);
+            }
+        }
+        return st.top();
+    }
+};
