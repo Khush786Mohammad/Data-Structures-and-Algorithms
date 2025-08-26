@@ -1,0 +1,39 @@
+// User function Template for C++
+
+class Solution {
+    private:
+    bool isOperator(char ch)
+    {
+        if(ch == '+' || ch == '-' || ch == '/' || ch == '*' || ch == '^')
+            return true;
+        return false;
+    }
+  public:
+    string postToPre(string expression) {
+        stack<string> st;
+        int n = expression.length();
+        
+        for(int i = 0 ; i<n ; i++)
+        {
+            if(isOperator(expression[i]))
+            {
+                string operand1 = st.top();
+                if(!st.empty())
+                    st.pop();
+                string operand2 = st.top();
+                if(!st.empty())
+                    st.pop();
+                    
+                string result = expression[i]+operand2+operand1;
+                st.push(result);
+            }
+            else
+            {
+                string str = "";
+                str += expression[i];
+                st.push(str);
+            }
+        }
+        return st.top();
+    }
+};
