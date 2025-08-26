@@ -1,0 +1,41 @@
+// User function Template for C++
+
+class Solution {
+    private:
+    bool isOperator(char ch)
+    {
+        if(ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '^')
+            return true;
+        return false;
+    }
+  public:
+    string postToInfix(string exp) {
+        // Write your code here
+        stack<string> st;
+        int n = exp.length();
+        
+        for(int i = 0 ; i<n ; i++)
+        {
+            if(isOperator(exp[i]))
+            {
+                string operand1 = st.top();
+                if(!st.empty())
+                    st.pop();
+                    
+                string operand2 = st.top();
+                if(!st.empty())
+                    st.pop();
+                    
+                string result = "("+operand2+exp[i]+operand1+")";
+                st.push(result);
+            }
+            else
+            {
+                string str = "";
+                str.push_back(exp[i]);
+                st.push(str);
+            }
+        }
+        return st.top();
+    }
+};
