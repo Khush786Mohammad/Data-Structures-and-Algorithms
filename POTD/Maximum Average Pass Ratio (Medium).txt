@@ -1,0 +1,45 @@
+class Solution {
+    private: 
+    double findGains(double pass, double total)
+    {
+        double oldGains = pass*1.0 / total*1.0;
+        double newGains = (pass+1)*1.0 / (total+1)*1.0;
+
+        return newGains-oldGains; 
+    }
+public:
+    double maxAverageRatio(vector<vector<int>>& classes, int eS) {
+        int n = classes.size();
+        priority_queue<pair<double,pair<int,int>>> pq;
+
+        //calculate the gains and insert them to the  priority_queue
+
+        for(auto c: classes)
+        {
+            pq.push({findGains(c[0],c[1]),{c[0],c[1]}});
+        }
+
+        for(int i = 0 ; i<eS ; i++)
+        {
+            auto it = pq.top();
+            pq.pop();
+
+            int pass = it.second.first;
+            int total = it.second.second;
+
+            pass++; total++;
+
+            pq.push({findGains(pass,total),{pass,total}});
+        }
+
+        double ans = 0.0;
+        while(!pq.empty())
+        {
+            auto it = pq.top();
+            pq.pop();
+
+            ans += (it.second.first*1.0)/(it.second.second*1.0);
+        }
+        return ans/n*1.0;
+    }
+};
