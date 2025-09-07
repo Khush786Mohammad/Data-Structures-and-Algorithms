@@ -1,0 +1,145 @@
+class Solution {
+public:
+    int minOperations(string s) {
+        // vector<int> mapping(26,0);
+        // int count = 0;
+
+        // int n = s.length();
+
+        // for(int i = 0 ; i<n ; i++)
+        //     {
+        //         int index = s[i]-'a';
+        //         mapping[index] += 1;
+        //     }
+
+        // // now we will find the lowest ascii alphabet and check in how many steps we can make 
+        // //it to the next ascii alphabet present in the mapping table
+
+        // for(int i = 1 ; i<26 ; i++)
+        //     {
+        //         if(mapping[i] > 0)
+        //         {
+                    
+        //         }
+        //     }
+
+        int count = 0;
+        int n = s.length();
+
+        sort(s.begin(), s.end());
+
+        char currentChar = s[0];
+        int index = n;
+
+        // skip the currentChar if it is 'a';
+
+        for(int i = 0 ; i<n ; i++)
+            {
+                if(s[i] == 'a')
+                    continue;
+                else
+                {
+                    currentChar = s[i];
+                    index = i;
+                    break;
+                    
+                }
+            }
+
+        while(index < n)
+            {
+                int j = index+1;
+
+                while(j < n && currentChar == s[j])
+                    {
+                        j++;
+                    }
+
+                if(j < n)
+                {
+                    count += s[j]-currentChar;
+                    currentChar = s[j];
+                }
+                else
+                {
+                    count += 'z' - currentChar + 1;
+                }
+
+                //check if j or j+1;
+                index = j;
+            }
+        return count;
+    }
+};class Solution {
+public:
+    int minOperations(string s) {
+        // vector<int> mapping(26,0);
+        // int count = 0;
+
+        // int n = s.length();
+
+        // for(int i = 0 ; i<n ; i++)
+        //     {
+        //         int index = s[i]-'a';
+        //         mapping[index] += 1;
+        //     }
+
+        // // now we will find the lowest ascii alphabet and check in how many steps we can make 
+        // //it to the next ascii alphabet present in the mapping table
+
+        // for(int i = 1 ; i<26 ; i++)
+        //     {
+        //         if(mapping[i] > 0)
+        //         {
+                    
+        //         }
+        //     }
+
+        int count = 0;
+        int n = s.length();
+
+        sort(s.begin(), s.end());
+
+        char currentChar = s[0];
+        int index = n;
+
+        // skip the currentChar if it is 'a';
+
+        for(int i = 0 ; i<n ; i++)
+            {
+                if(s[i] == 'a')
+                    continue;
+                else
+                {
+                    currentChar = s[i];
+                    index = i;
+                    break;
+                    
+                }
+            }
+
+        while(index < n)
+            {
+                int j = index+1;
+
+                while(j < n && currentChar == s[j])
+                    {
+                        j++;
+                    }
+
+                if(j < n)
+                {
+                    count += s[j]-currentChar;
+                    currentChar = s[j];
+                }
+                else
+                {
+                    count += 'z' - currentChar + 1;
+                }
+
+                //check if j or j+1;
+                index = j;
+            }
+        return count;
+    }
+};
