@@ -1,0 +1,36 @@
+class Solution {
+    private:
+    bool isVowel(char ch)
+    {
+        string vowel = "aeiouAEIOU";
+
+        return vowel.find(ch) != string::npos;
+    }
+public:
+    string sortVowels(string s) {
+        vector<int> vowels;
+        int n = s.length();
+
+        for(int i = 0 ; i<n ; i++)
+        {
+            if(isVowel(s[i]))
+            {
+                vowels.push_back(s[i]-65);
+            }
+        }
+
+        sort(vowels.begin(), vowels.end());
+
+        string ans = s;
+        int idx = 0;
+
+        for(int i = 0 ; i<n ; i++)
+        {
+            if(isVowel(ans[i]))
+            {
+                ans[i] = char(vowels[idx++] + 'A');
+            }
+        }
+        return ans;
+    }
+};
