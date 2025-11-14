@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        int leftMax = height[0];
+        int rightMax = height[n-1];
+        int trapWater = 0;
+
+        int l = 0;
+        int r = n-1;
+
+        while(l<r)
+        {
+            if(leftMax <= rightMax)
+            {
+                l += 1;
+                trapWater += leftMax - height[l] > 0 ? leftMax - height[l] : 0;
+                leftMax = max(leftMax, height[l]);
+            }
+            else
+            {
+                r -= 1;
+                trapWater += rightMax - height[r] > 0 ? rightMax - height[r] : 0;
+                rightMax = max(rightMax, height[r]);
+            }
+        }
+        return trapWater;
+    }
+};
+
+
+Time Complexity : O(N)
+Space Complexity : O(1)
