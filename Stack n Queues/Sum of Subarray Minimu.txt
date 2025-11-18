@@ -1,0 +1,54 @@
+class Solution {
+    private:
+    vector<int> nextSmallerElement(vector<int> arr)
+    {
+        int n = arr.size();
+        stack<int> st;
+        vector<int> nse(n,n);
+
+        for(int i = n-1 ; i>=0 ; i--)
+        {
+            while(!st.empty() && arr[st.top()] >= arr[i])
+                st.pop();
+        
+            nse[i] = st.empty() ? n : st.top();
+            st.push(i);
+        }
+        return nse;
+    }
+
+    vector<int> previousSmallerEqualElement(vector<int> arr)
+    {
+        int n = arr.size();
+        stack<int> st;
+        vector<int> psse(n,-1);
+
+        for(int i = 0 ; i<n ; i++)
+        {
+            while(!st.empty() && arr[st.top()] > arr[i])
+                st.pop();
+
+            psse[i] = st.empty() ? -1 : st.top();
+            st.push(i);
+        }
+        return psse;
+    }
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+       int totalSum = 0;
+       int n = arr.size();
+       int mod = 1e9 + 7;
+       vector<int> NSE = nextSmallerElement(arr);
+       vector<int> PSEE = previousSmallerEqualElement(arr);
+
+       for(int i = 0 ; i<n ; i++)
+       {
+            int left = i - PSEE[i];
+            int right = NSE[i] - i;
+            long long freq = left * right * 1LL;
+            int contribution = (freq * arr[i] * 1LL) % mod;
+            totalSum = (totalSum + contribution) % mod;
+       }
+       return totalSum;
+    }
+};
