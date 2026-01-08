@@ -1,0 +1,45 @@
+class Solution {
+    private: 
+    string makeString(char s, int freq)
+    {
+        string str = "";
+        for(int i = 0 ; i<freq ; i++)
+        {
+            str += s;
+        }
+        return str;
+    }
+public:
+    string frequencySort(string s) {
+        int n = s.length();
+        vector<pair<int,char>> freq(62);
+        for(int i = 0 ; i<n ; i++)
+        {
+            if(s[i] >= '0' && s[i] <= '9')
+            {
+                int idx = s[i]-'0';
+                freq[idx] = {freq[idx].first+1 , s[i]};
+            }
+            else if(s[i] >= 'A' && s[i] <= 'Z')
+            {
+                int idx = s[i]-'A' + 10;
+                freq[idx] = {freq[idx].first+1 , s[i]};
+            }
+            else
+            {
+                int idx = s[i]-'a' + 36;
+                freq[idx] = {freq[idx].first+1 , s[i]};
+            }
+        }
+
+        sort(freq.begin(), freq.end(), [&] (auto a, auto b){
+            return a.first > b.first;
+        });
+        string ans = "";
+        for(int i = 0 ; i<62 ; i++)
+        {
+            ans += makeString(freq[i].second, freq[i].first);
+        }
+        return ans;
+    }
+};
