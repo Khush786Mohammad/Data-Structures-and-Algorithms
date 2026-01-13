@@ -1,0 +1,44 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.length();
+        string ans = "";
+        int maxLength = 0;
+
+        for(int i = 0 ; i<n ; i++)
+        {
+           // for odd palindromic substrings
+           int j = i;
+           int k = i;
+
+           while(j>=0 && k<n && s[j] == s[k])
+           {
+            if(k-j+1 > maxLength)
+            {
+                ans = s.substr(j,k-j+1);
+                maxLength = ans.length();
+            }
+            j--;
+            k++;
+           }
+
+           //for even length palindromic substrings
+
+           j = i;
+           k = i+1;
+
+           while(j>=0 && k<n && s[j] == s[k])
+           {
+            if(k-j+1 > maxLength)
+            {
+                ans = s.substr(j,k-j+1);
+                maxLength = ans.length();
+            }
+            j--;
+            k++;
+           }
+           
+        }
+        return ans;
+    }
+};
