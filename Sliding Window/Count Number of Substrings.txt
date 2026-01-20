@@ -1,0 +1,44 @@
+Problem Statment: Given a string s and integer k, count the number of substring where exactly k distinct characters are present
+
+//eg s -> pqpqs k = 2
+ans = 7
+
+int atMostKDistinct(string &s, int k)
+{
+ int left = 0;
+ int result = 0;
+ unordered_map<char,int> prefix;
+ 
+ for(int right = 0 ; right<s.length() ; right++)
+ {
+   prefix[s[right]]++;
+   
+   //shrink the window if number of distinct characters exceeds k
+   while(prefix.size() > k)
+   {
+     prefix[s[left]]--;
+     if(prefix[s[left]] == 0)
+	prefix.erase(s[left]];
+     left++;
+   }
+   
+   // count the number strings that ends with character at right
+   res += right - left + 1;
+ }
+ return res;
+}
+
+int distinctKString(string &s, int k)
+{
+ return atMostKDistinct(s, k) - atMostKDistinct(s, k-1);
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+ string s = "pqpqs", k = 2;
+ cout<<distinctKString(s,k);
+ return 0;
+}
