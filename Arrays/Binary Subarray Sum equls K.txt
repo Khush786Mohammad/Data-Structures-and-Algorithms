@@ -1,0 +1,78 @@
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        //it like subarray sum equals K
+        // [3,-3,1,1,1] k = 3
+        // [3]
+        // [3,-3,1,1,1]
+        // [1,1,1]
+        /*
+         map<prefixsum,count> =  [{0,2},{3,1},{1,1},{2,1}]
+         prefixSUm = 0, 3, 0, 1, 2;
+         ans = 0, 1, 3
+
+         if the total sum is x to exit a goal of k ther should be and x-k in the map
+
+            0th idx = prefixsum - k is in map if yes what's the count 
+            so 3 - k (3) = 0 is in map yes ans += 1;
+
+            1th idx = prefixum -k
+            0-k(3) = -1 is in in map -> no
+
+            2th idx = prefixsum - k
+            1-(3) = -2 is in map -> no
+
+            3th idx = prefixsum - k
+            2-(3) = -1 is in map->no
+
+            4th idx = prefixSum - k
+            3-3 = 0 is in map->yes
+                    ans += 2
+
+
+            now same approach to this problem
+
+            map<prefixsum, count> = [{0,1},{1,2},{2,2}]
+            prefixsum = 0,1,1,2;
+            ans = 0, 1, 2, 4
+
+            0th idx 
+                prefixSum = 1
+            1-2 = -1 is in map -> no
+
+            1th idx 
+                prefixum = 1
+            1-2 = -1 is in map -> no
+
+            2th idx
+                prefixsum = 2
+            2-2 = 0 is in map -> yes✅ [1,0,1]
+                    ans += count
+            3rd idx 
+                prefixum = 2
+            2-2 = 0 is in map -> yes✅ [1,0,1,0]
+                ans += map.count
+
+            4th idx 
+                prefix sum = 3
+            3-goal(2) = 1 is in map-> yes ✅ [0,1,0,1], [1,0,1]
+             ans += 2 
+        */
+
+        int n = nums.size();
+        int prefixSum = 0;
+        int ans = 0;
+        //{prefixSum , count}
+        unordered_map<int,int> mp;
+        mp[0] = 1;
+
+        for(int i = 0 ; i<n ; i++){
+            prefixSum += nums[i];
+            if(mp.find(prefixSum - goal) != mp.end()){
+                ans += mp[prefixSum-goal];
+            }
+            mp[prefixSum] += 1;
+        }
+        return ans;
+    }
+};
