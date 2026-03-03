@@ -1,0 +1,30 @@
+typedef long long ll;
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        set<vector<int>> st;
+
+        for(int i = 0 ; i<n ; i++){ // O(n)
+            for(int j = i+1; j<n ; j++){ // O(n)
+                unordered_set<ll> hash;
+                for(int k = j+1; k<n ; k++){ // O(n)
+                    ll req = (ll)target - (
+                        (ll)nums[i] + (ll)nums[j] + (ll)nums[k]
+                    );
+                    if(hash.find(req) != hash.end()){ // O(logn)
+                        vector<int> temp = {nums[i],nums[j],nums[k],(int)req};
+                        sort(temp.begin(),temp.end()); // O(4)
+                        st.insert(temp); // O(log n)
+                    }
+                    hash.insert((ll)nums[k]); // O(1)
+                }
+            }
+        }
+        vector<vector<int>> ans(st.begin(), st.end()); // O(unique quadruplets)
+        return ans;
+    }
+};
+
+// Time Complexity = O(N) * O(N) * O(N) * (2log N) + (unique quadruplet)
+// -> O(n^3 * log n)
