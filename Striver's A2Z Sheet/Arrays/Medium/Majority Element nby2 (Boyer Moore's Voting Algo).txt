@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int n = nums.size();
+        int value = nums[0];
+        int count = 1;
+
+        for(int i = 1; i<n ; i++){
+            if(count == 0){
+                value = nums[i];
+                count = 1;
+            }
+            else{
+                if(value == nums[i])
+                    count++;
+                else
+                    count--;
+            }
+        }
+        int totalValueCnt = 0;
+        for(auto a : nums){
+            if(a == value)
+                totalValueCnt++;
+        }
+        if(totalValueCnt > n/2)
+            return value;
+        return -1;
+    }
+};
