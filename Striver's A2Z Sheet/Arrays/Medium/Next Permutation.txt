@@ -1,0 +1,34 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int flag = true;
+        for(int i = 0 ; i<n-1 ; i++){
+            if(nums[i] < nums[i+1]){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            reverse(nums.begin(), nums.end());
+            return ;
+        }
+
+        //find the dip from right where there is a decline slop in array
+        int dip = -1;
+        for(int i = n-1 ; i>=0 ; i--){
+            if(nums[i] > nums[i-1]){
+                dip = i;
+                break;
+            }
+        }
+        int minValueIdx = dip;
+        for(int i = dip ; i<n ; i++){
+            if(nums[i] > nums[dip-1] && nums[i] < nums[minValueIdx])
+                minValueIdx = i;
+        }
+        swap(nums[dip-1], nums[minValueIdx]);
+        sort(nums.begin()+dip, nums.end());
+        return;
+    }
+};
