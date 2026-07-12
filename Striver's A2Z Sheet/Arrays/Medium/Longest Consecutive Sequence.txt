@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        int n = nums.size();
+        int longestCount = 0;
+        unordered_set<int> st(nums.begin(), nums.end());
+
+        for(auto itr: st){
+            int count = 1;
+            if(st.find(itr-1) == st.end()){
+                while(st.find(itr+1) != st.end()){
+                    count += 1;
+                    itr += 1;
+                }
+            }
+            longestCount = max(longestCount, count);
+        }
+        return longestCount;
+    }
+};
