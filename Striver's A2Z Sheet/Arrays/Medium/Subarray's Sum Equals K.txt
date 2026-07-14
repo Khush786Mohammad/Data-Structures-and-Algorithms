@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int totalSubarraySum = 0;
+        int sum = 0;
+        unordered_map<int,int> mp; //[sum,count];
+        mp[0] = 1;
+
+        for(auto itr: nums){
+            sum += itr;
+            if(mp.find(sum-k) != mp.end())
+                totalSubarraySum += mp[sum-k];
+            mp[sum]++;
+        }
+        return totalSubarraySum;
+    }
+};
