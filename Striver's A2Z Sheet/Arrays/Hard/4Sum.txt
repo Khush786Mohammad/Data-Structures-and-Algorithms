@@ -1,0 +1,53 @@
+typedef long long ll;
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        if (n < 4)
+            return {};
+        int i = 0;
+        vector<vector<int>> ans;
+        sort(nums.begin(), nums.end());
+
+        while (i < n) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                ++i;
+                continue;
+            }
+            int j = i + 1;
+            while (j < n) {
+                if (j - i > 1 && nums[j] == nums[j - 1]) {
+                    ++j;
+                    continue;
+                }
+                int left = j + 1;
+                int right = n - 1;
+
+                while (left < right) {
+                    ll sum = (ll)nums[i] + (ll)nums[j] + (ll)nums[left] +
+                             (ll)nums[right];
+                    if (sum == target) {
+                        vector<int> quadruplets = {nums[i], nums[j], nums[left],
+                                                   nums[right]};
+                        sort(quadruplets.begin(), quadruplets.end());
+                        ans.push_back(quadruplets);
+
+                        ++left;
+                        --right;
+
+                        while (left < n && nums[left] == nums[left - 1])
+                            ++left;
+                        while (right >= 0 && nums[right] == nums[right + 1])
+                            --right;
+                    } else if (sum > target)
+                        --right;
+                    else
+                        ++left;
+                }
+                ++j;
+            }
+            ++i;
+        }
+        return ans;
+    }
+};

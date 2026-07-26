@@ -1,0 +1,23 @@
+typedef long ll;
+class Solution {
+	public:
+	long subarrayXor(vector<int> &arr, int k) {
+		int n = arr.size();
+		int XOR = 0;
+		int ans = 0;
+		unordered_map<int, int> mp;
+		
+		for (int i = 0 ; i<n ; i++) {
+			XOR ^= arr[i];
+			if (XOR == k)
+				ans += 1;
+			
+			int required = XOR ^ k;
+			if (mp.find(required) != mp.end())
+				ans += mp[required];
+			
+			mp[XOR]++;
+		}
+		return ans;
+	}
+};
