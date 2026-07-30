@@ -1,0 +1,26 @@
+typedef long long ll;
+class Solution {
+	public:
+	vector<int> findTwoElement(vector<int>& arr) {
+		ll n = arr.size();
+		
+		ll S0 = 0;
+		ll Sn = (n*(n + 1))/2;
+		
+		ll Sq0 = 0;
+		ll SqN = (n*(n + 1)*(2*n + 1))/6;
+		for (int i = 0 ; i<n ; i++) {
+			S0 += (ll) arr[i];
+			Sq0 += (ll) arr[i]* (ll) arr[i];
+		}
+		// let x = repeating and y = missing
+		// eq1 = x-y = val1 and x^2 - y^2 = val2
+		ll val1 = S0 - Sn;
+		ll val2 = Sq0 - SqN;
+		ll x_sum_y = val2/val1;
+		ll repeating = (val1 + x_sum_y)/2;
+		ll missing = x_sum_y - repeating;
+		
+		return {(int) repeating, (int) missing};
+	}
+};

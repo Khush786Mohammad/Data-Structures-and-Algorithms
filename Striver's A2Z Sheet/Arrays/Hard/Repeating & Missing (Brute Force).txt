@@ -1,0 +1,22 @@
+//Brute Force: 
+//Time Complexity: O(n)
+//Space Complexity: O(n)
+
+class Solution {
+  public:
+    vector<int> findTwoElement(vector<int>& arr) {
+        unordered_map<int,int> mp;
+        vector<int> ans(2,0);
+        int n = arr.size();
+        for(int i: arr){
+            mp[i]++;
+        }
+        for(int i = 1;i<=n ; i++){
+            if(mp.find(i) == mp.end())
+                ans[1] = i;
+            else if(mp.find(i) != mp.end() && mp[i] == 2)
+                ans[0] = i;
+        }
+        return ans;
+    }
+};
