@@ -1,0 +1,37 @@
+class Solution {
+	public int minDaysBloom(int[] arr, int k, int m) {
+		int n = arr.length;
+		if (k*m > n)
+			return - 1;
+		
+		int minBloomDay = Arrays.stream(arr).min().getAsInt();
+		int maxBloomDay = Arrays.stream(arr).max().getAsInt();
+		
+		int ans = 0;
+		while(minBloomDay <= maxBloomDay) {
+		    int day = minBloomDay + (maxBloomDay-minBloomDay)/2;
+			int totalBouquets = 0;
+			int bloomFlowers = 0;
+			for (int i = 0 ; i<n ; i++) {
+				if (arr[i] <= day) {
+					bloomFlowers++;
+				}
+				else {
+					bloomFlowers = 0;
+				}
+				
+				if (bloomFlowers == k) {
+					totalBouquets++;
+					bloomFlowers = 0;
+				}
+			}
+			if (totalBouquets >= m) {
+				ans = day;
+				maxBloomDay = day-1;
+			}
+			else
+			    minBloomDay = day+1;
+		}
+		return ans;
+	}
+}

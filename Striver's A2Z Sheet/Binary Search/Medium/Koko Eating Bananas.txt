@@ -1,0 +1,24 @@
+class Solution {
+	public int kokoEat(int[] arr, int k) {
+		int n = arr.length;
+		int minRate = 1;
+		int maxRate = Arrays.stream(arr).max().getAsInt();
+		int ans = 0;
+		while(minRate <= maxRate) {
+		    int mid = minRate + (maxRate-minRate)/2;
+			int totalTime = 0;
+			for (int j = 0 ; j<n ; j++) {
+				totalTime += arr[j]/mid;
+				if (arr[j]%mid != 0)
+					totalTime += 1;
+			}
+			if (totalTime <= k) {
+				ans = mid;
+				maxRate = mid-1;
+			}
+			else
+			    minRate = mid+1;
+		}
+		return ans;
+	}
+}
