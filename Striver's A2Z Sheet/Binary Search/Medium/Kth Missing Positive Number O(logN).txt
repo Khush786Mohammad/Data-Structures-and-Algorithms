@@ -1,0 +1,22 @@
+class Solution {
+    public int findKthPositive(int[] arr, int k) {
+        int low = 0;
+        int high = arr.length-1;
+        int idx = findIdx(arr, low, high, k);
+        return k+idx;
+    }
+
+    private static int findIdx(int[] arr, int low, int high, int k){
+        int idx = high+1;
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(arr[mid] - (mid+1) >= k){
+                idx = mid;
+                high = mid-1;
+            }
+            else
+                low = mid+1;
+        }
+        return idx;
+    }
+}
