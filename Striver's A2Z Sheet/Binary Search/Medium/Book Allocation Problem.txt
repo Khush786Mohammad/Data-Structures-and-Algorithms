@@ -1,0 +1,47 @@
+class Solution {
+    public int findPages(int[] arr, int k) {
+        int n = arr.length;
+        
+        if(k>n)
+            return -1;
+        long low = 0;
+        long high = 0;
+        
+        for(int pages: arr){
+            low = Math.max(low,pages);
+            high += pages;
+        }
+        
+        long ans = 0;
+        while(low<=high){
+            long mid = low + (high-low)/2;
+            if(Solution.canAllocate(arr,mid,k)){
+                ans = mid;
+                high = mid-1;
+            }
+            else{
+                low = mid+1;
+            }
+        }
+        return (int) ans;
+    }
+    
+    private static boolean canAllocate(int[] arr, long pages, int k){
+        int n = arr.length;
+        long requiredStudent = 1;
+        long currPages = arr[0];
+        
+        for(int i = 1; i<n; i++){
+            if(currPages + arr[i] <= pages){
+                currPages += arr[i];
+            }
+            else{
+                requiredStudent += 1;
+                currPages = arr[i];
+            }
+        }
+        if(requiredStudent <= k)
+            return true;
+        return false;
+    }
+}

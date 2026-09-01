@@ -1,0 +1,36 @@
+class Solution {
+	public int aggressiveCows(int[] arr, int k) {
+		int n = arr.length;
+		Arrays.sort(arr);
+		int minDistance = 1;
+		int maxDistance = Integer.MAX_VALUE;
+		int ans = -1;
+		while (minDistance <= maxDistance) {
+			int distance = minDistance + (maxDistance - minDistance)/2;
+			if (canPlaceEveryCows(arr, k, distance)) {
+				ans = distance;
+				minDistance = distance + 1;
+			}
+			else {
+				maxDistance = distance - 1;
+			}
+		}
+		return ans;
+	}
+	
+	private static boolean canPlaceEveryCows(int[] arr, int k, int distance) {
+		int totalCowsPlaced = 1;
+		int previousCowPlaced = 0;
+		int n = arr.length;
+		
+		for (int i = 1; i<n ; i++) {
+			if (Math.abs(arr[i] - arr[previousCowPlaced]) >= distance) {
+				totalCowsPlaced++;
+				previousCowPlaced = i;
+			}
+			if (totalCowsPlaced == k)
+				return true;
+		}
+		return false;
+	}
+}
