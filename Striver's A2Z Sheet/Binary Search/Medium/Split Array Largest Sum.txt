@@ -1,0 +1,45 @@
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        int n = nums.length;
+        long maxVal = 0;
+        long sum = 0;
+        long ans = -1;
+
+        for(int val: nums){
+            maxVal = Math.max(maxVal, val);
+            sum += val;
+        }
+
+        while(maxVal <= sum){
+            long mid = maxVal + (sum-maxVal)/2;
+            System.out.println(mid);
+            if(canSplitArray(nums, mid, k)){
+                ans = mid;
+                sum = mid-1;
+            }
+            else{
+                maxVal = mid+1;
+            }
+        }
+
+        return (int)ans;
+    }
+    private static boolean canSplitArray(int[] nums, long sum, int k){
+        int n = nums.length;
+        int subarrays = 1;
+        long currSum = nums[0];
+
+        for(int i = 1; i<n; i++){
+            if(currSum + nums[i] <= sum){
+                currSum += nums[i];
+            }
+            else{
+                currSum = nums[i];
+                subarrays += 1;
+            }
+        }
+        if(subarrays <= k)
+            return true;
+        return false;
+    }
+}
