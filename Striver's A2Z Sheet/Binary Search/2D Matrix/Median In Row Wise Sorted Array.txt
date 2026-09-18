@@ -1,0 +1,51 @@
+class Solution {
+    public int median(int[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        
+        int required = (n*m)/2;
+        int low = Integer.MAX_VALUE;
+        int high = Integer.MIN_VALUE;
+        
+        for(int i = 0 ;i<n ; i++){
+            low = Math.min(low, matrix[i][0]);
+            high = Math.max(high, matrix[i][m-1]);
+        }
+        
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            int requiredElements = blackBox(matrix,mid);
+            
+            if(requiredElements <= required){
+                low = mid+1;
+            }
+            else{
+                high = mid-1;
+            }
+        }
+        return low;
+    }
+    
+    public static int blackBox(int[][] matrix, int x){
+        int n = matrix.length;
+        int total = 0;
+        for(int i = 0 ; i<n ; i++){
+            total += upperBound(matrix[i],x);
+        }
+        return total;
+    }
+    
+    public static int upperBound(int[] arr, int x){
+        int low = 0;
+        int high = arr.length-1;
+        
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(arr[mid] <= x)
+                low = mid+1;
+            else
+                high = mid-1;
+        }
+        return low;
+    }
+}
