@@ -1,0 +1,22 @@
+class Solution {
+    private static final long MOD = 1000000007;
+    public int countGoodNumbers(long n) {
+        long even = (n+1)/2;
+        long odd = (n)/2;
+
+        long result =  (binaryExponential(5, even) * binaryExponential(4, odd)) % MOD;
+        return (int) result;
+    }
+
+    private static long binaryExponential(long base, long exp){
+        long result = 1;
+        while(exp != 0){
+            if(exp % 2 == 1)
+                result = (base * result) % MOD;
+
+            base = (base * base) % MOD;
+            exp = exp >> 1;
+        }
+        return result;
+    }
+}
